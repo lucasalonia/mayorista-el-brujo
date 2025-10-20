@@ -7,4 +7,8 @@
     <RootNamespace>mayorista_el_brujo</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
+  </ItemGroup>
+
 </Project>

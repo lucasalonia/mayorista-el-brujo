@@ -1,129 +1,200 @@
 -- ----------------------------------------------------
--- 1️⃣ Tabla persona
+-- 1️⃣ Tabla `personas`
 -- ----------------------------------------------------
-CREATE TABLE `persona` (
-    `id_persona` INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE `personas` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
     `nombre` VARCHAR(100) NOT NULL,
     `apellido` VARCHAR(100),
     `dni` VARCHAR(20),
     `telefono` VARCHAR(50),
-    `email` VARCHAR(100)
+    `email` VARCHAR(100),
+    `estado` VARCHAR(20) NOT NULL DEFAULT 'ACTIVO',
+    `fecha_creacion` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `fecha_modificacion` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `creado_por` INT NULL,
+    `modificado_por` INT NULL,
+    UNIQUE KEY `uk_personas_dni` (`dni`),
+    FOREIGN KEY (`creado_por`) REFERENCES `usuarios`(`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+    FOREIGN KEY (`modificado_por`) REFERENCES `usuarios`(`id`) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- ----------------------------------------------------
--- 2️⃣ Tabla cliente
+-- 2️⃣ Tabla `clientes`
 -- ----------------------------------------------------
-CREATE TABLE `cliente` (
-    `id_cliente` INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE `clientes` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
     `tipo` ENUM('persona','empresa') NOT NULL,
-    `id_persona` INT,
+    `persona_id` INT,
     `razon_social` VARCHAR(150),
     `cuit` VARCHAR(20),
     `direccion` VARCHAR(200),
     `telefono` VARCHAR(50),
     `email` VARCHAR(100),
-    FOREIGN KEY (`id_persona`) REFERENCES `persona`(`id_persona`)
+    `estado` VARCHAR(20) NOT NULL DEFAULT 'ACTIVO',
+    `fecha_creacion` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `fecha_modificacion` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `creado_por` INT NULL,
+    `modificado_por` INT NULL,
+    FOREIGN KEY (`persona_id`) REFERENCES `personas`(`id`),
+    FOREIGN KEY (`creado_por`) REFERENCES `usuarios`(`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+    FOREIGN KEY (`modificado_por`) REFERENCES `usuarios`(`id`) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- ----------------------------------------------------
--- 3️⃣ Tabla proveedor
+-- 3️⃣ Tabla `proveedores`
 -- ----------------------------------------------------
-CREATE TABLE `proveedor` (
-    `id_proveedor` INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE `proveedores` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
     `razon_social` VARCHAR(150) NOT NULL,
     `cuit` VARCHAR(20),
     `direccion` VARCHAR(200),
     `telefono` VARCHAR(50),
     `email` VARCHAR(100),
-    `id_contacto` INT,
-    FOREIGN KEY (`id_contacto`) REFERENCES `persona`(`id_persona`)
+    `persona_id` INT,
+    `estado` VARCHAR(20) NOT NULL DEFAULT 'ACTIVO',
+    `fecha_creacion` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `fecha_modificacion` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `creado_por` INT NULL,
+    `modificado_por` INT NULL,
+    FOREIGN KEY (`persona_id`) REFERENCES `personas`(`id`),
+    FOREIGN KEY (`creado_por`) REFERENCES `usuarios`(`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+    FOREIGN KEY (`modificado_por`) REFERENCES `usuarios`(`id`) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- ----------------------------------------------------
--- 4️⃣ Tabla usuario
+-- 4️⃣ Tabla `usuarios`
 -- ----------------------------------------------------
-CREATE TABLE `usuario` (
-    `id_usuario` INT AUTO_INCREMENT PRIMARY KEY,
-    `id_persona` INT NOT NULL,
+CREATE TABLE `usuarios` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `persona_id` INT NOT NULL,
     `nombre_usuario` VARCHAR(50) NOT NULL UNIQUE,
     `password_hash` VARCHAR(255) NOT NULL,
     `rol` ENUM('admin','empleado') NOT NULL,
-    FOREIGN KEY (`id_persona`) REFERENCES `persona`(`id_persona`)
+    `estado` VARCHAR(20) NOT NULL DEFAULT 'ACTIVO',
+    `fecha_creacion` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `fecha_modificacion` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `creado_por` INT NULL,
+    `modificado_por` INT NULL,
+    FOREIGN KEY (`persona_id`) REFERENCES `personas`(`id`),
+    FOREIGN KEY (`creado_por`) REFERENCES `usuarios`(`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+    FOREIGN KEY (`modificado_por`) REFERENCES `usuarios`(`id`) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- ----------------------------------------------------
--- 5️⃣ Tabla tipo_producto
+-- 5️⃣ Tabla `tipos_productos`
 -- ----------------------------------------------------
-CREATE TABLE `tipo_producto` (
-    `id_tipo_producto` INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE `tipos_productos` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
     `nombre` VARCHAR(100) NOT NULL,
-    `descripcion` VARCHAR(255)
+    `descripcion` VARCHAR(255),
+    `estado` VARCHAR(20) NOT NULL DEFAULT 'ACTIVO',
+    `fecha_creacion` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `fecha_modificacion` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `creado_por` INT NULL,
+    `modificado_por` INT NULL,
+    FOREIGN KEY (`creado_por`) REFERENCES `usuarios`(`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+    FOREIGN KEY (`modificado_por`) REFERENCES `usuarios`(`id`) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- ----------------------------------------------------
--- 6️⃣ Tabla producto
+-- 6️⃣ Tabla `productos`
 -- ----------------------------------------------------
-CREATE TABLE `producto` (
-    `id_producto` INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE `productos` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
     `codigo` VARCHAR(50) UNIQUE NOT NULL,
     `nombre` VARCHAR(150) NOT NULL,
-    `id_tipo_producto` INT NOT NULL,
+    `tipo_producto_id` INT NOT NULL,
     `stock` INT DEFAULT 0,
     `precio_costo` DECIMAL(10,2) NOT NULL,
     `precio_venta` DECIMAL(10,2) NOT NULL,
-    FOREIGN KEY (`id_tipo_producto`) REFERENCES `tipo_producto`(`id_tipo_producto`)
+    `estado` VARCHAR(20) NOT NULL DEFAULT 'ACTIVO',
+    `fecha_creacion` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `fecha_modificacion` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `creado_por` INT NULL,
+    `modificado_por` INT NULL,
+    FOREIGN KEY (`tipo_producto_id`) REFERENCES `tipos_productos`(`id`),
+    FOREIGN KEY (`creado_por`) REFERENCES `usuarios`(`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+    FOREIGN KEY (`modificado_por`) REFERENCES `usuarios`(`id`) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- ----------------------------------------------------
--- 7️⃣ Tabla factura_compra
+-- 7️⃣ Tabla `facturas_compras`
 -- ----------------------------------------------------
-CREATE TABLE `factura_compra` (
-    `id_factura_compra` INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE `facturas_compras` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
     `fecha` DATETIME NOT NULL,
-    `id_proveedor` INT NOT NULL,
-    `id_usuario` INT NOT NULL,
+    `proveedor_id` INT NOT NULL,
+    `usuario_id` INT NOT NULL,
     `total` DECIMAL(12,2) NOT NULL,
-    FOREIGN KEY (`id_proveedor`) REFERENCES `proveedor`(`id_proveedor`),
-    FOREIGN KEY (`id_usuario`) REFERENCES `usuario`(`id_usuario`)
+    `estado` VARCHAR(20) NOT NULL DEFAULT 'ACTIVO',
+    `fecha_creacion` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `fecha_modificacion` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `creado_por` INT NULL,
+    `modificado_por` INT NULL,
+    FOREIGN KEY (`proveedor_id`) REFERENCES `proveedores`(`id`),
+    FOREIGN KEY (`usuario_id`) REFERENCES `usuarios`(`id`),
+    FOREIGN KEY (`creado_por`) REFERENCES `usuarios`(`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+    FOREIGN KEY (`modificado_por`) REFERENCES `usuarios`(`id`) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- ----------------------------------------------------
--- 8️⃣ Tabla detalle_factura_compra
+-- 8️⃣ Tabla `detalles_facturas_compras`
 -- ----------------------------------------------------
-CREATE TABLE `detalle_factura_compra` (
-    `id_detalle_compra` INT AUTO_INCREMENT PRIMARY KEY,
-    `id_factura_compra` INT NOT NULL,
-    `id_producto` INT NOT NULL,
+CREATE TABLE `detalles_facturas_compras` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `factura_compra_id` INT NOT NULL,
+    `producto_id` INT NOT NULL,
     `cantidad` INT NOT NULL,
     `precio_unitario` DECIMAL(10,2) NOT NULL,
     `subtotal` DECIMAL(12,2) NOT NULL,
-    FOREIGN KEY (`id_factura_compra`) REFERENCES `factura_compra`(`id_factura_compra`),
-    FOREIGN KEY (`id_producto`) REFERENCES `producto`(`id_producto`)
+    `estado` VARCHAR(20) NOT NULL DEFAULT 'ACTIVO',
+    `fecha_creacion` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `fecha_modificacion` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `creado_por` INT NULL,
+    `modificado_por` INT NULL,
+    FOREIGN KEY (`factura_compra_id`) REFERENCES `facturas_compras`(`id`),
+    FOREIGN KEY (`producto_id`) REFERENCES `productos`(`id`),
+    FOREIGN KEY (`creado_por`) REFERENCES `usuarios`(`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+    FOREIGN KEY (`modificado_por`) REFERENCES `usuarios`(`id`) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- ----------------------------------------------------
--- 9️⃣ Tabla factura_venta
+-- 9️⃣ Tabla `facturas_ventas`
 -- ----------------------------------------------------
-CREATE TABLE `factura_venta` (
-    `id_factura_venta` INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE `facturas_ventas` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
     `fecha` DATETIME NOT NULL,
-    `id_cliente` INT NOT NULL,
-    `id_usuario` INT NOT NULL,
+    `cliente_id` INT NOT NULL,
+    `usuario_id` INT NOT NULL,
     `total` DECIMAL(12,2) NOT NULL,
-    FOREIGN KEY (`id_cliente`) REFERENCES `cliente`(`id_cliente`),
-    FOREIGN KEY (`id_usuario`) REFERENCES `usuario`(`id_usuario`)
+    `estado` VARCHAR(20) NOT NULL DEFAULT 'ACTIVO',
+    `fecha_creacion` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `fecha_modificacion` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `creado_por` INT NULL,
+    `modificado_por` INT NULL,
+    FOREIGN KEY (`cliente_id`) REFERENCES `clientes`(`id`),
+    FOREIGN KEY (`usuario_id`) REFERENCES `usuarios`(`id`),
+    FOREIGN KEY (`creado_por`) REFERENCES `usuarios`(`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+    FOREIGN KEY (`modificado_por`) REFERENCES `usuarios`(`id`) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- ----------------------------------------------------
--- 🔟 Tabla detalle_factura_venta
+-- 🔟 Tabla `detalles_facturas_ventas`
 -- ----------------------------------------------------
-CREATE TABLE `detalle_factura_venta` (
-    `id_detalle_venta` INT AUTO_INCREMENT PRIMARY KEY,
-    `id_factura_venta` INT NOT NULL,
-    `id_producto` INT NOT NULL,
+CREATE TABLE `detalles_facturas_ventas` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `factura_venta_id` INT NOT NULL,
+    `producto_id` INT NOT NULL,
     `cantidad` INT NOT NULL,
     `precio_unitario` DECIMAL(10,2) NOT NULL,
     `subtotal` DECIMAL(12,2) NOT NULL,
-    FOREIGN KEY (`id_factura_venta`) REFERENCES `factura_venta`(`id_factura_venta`),
-    FOREIGN KEY (`id_producto`) REFERENCES `producto`(`id_producto`)
+    `estado` VARCHAR(20) NOT NULL DEFAULT 'ACTIVO',
+    `fecha_creacion` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `fecha_modificacion` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `creado_por` INT NULL,
+    `modificado_por` INT NULL,
+    FOREIGN KEY (`factura_venta_id`) REFERENCES `facturas_ventas`(`id`),
+    FOREIGN KEY (`producto_id`) REFERENCES `productos`(`id`),
+    FOREIGN KEY (`creado_por`) REFERENCES `usuarios`(`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+    FOREIGN KEY (`modificado_por`) REFERENCES `usuarios`(`id`) ON DELETE SET NULL ON UPDATE CASCADE
 );
