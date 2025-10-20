@@ -65,6 +65,11 @@ Registra las ventas a clientes. Cada factura está asociada a un cliente y a un 
 **DetalleFacturaVenta**  
 Contiene los productos, cantidades y precios de cada factura de venta.
 
+#### Entidades posibles (ignoradas momentaneamente para evitar complejidad)
+**Lote**
+Resgistrar lote con codigo de lote para cada producto. El calculo de stock puede surgir de aca o crearse otra tabla
+Tambien la tabla producto podria pasar a llamarse **loteProducto**. y crear otra entidad **productosUnitarios** para el conteo de cada producto disponible
+
 
 ### Relaciones entre entidades
 

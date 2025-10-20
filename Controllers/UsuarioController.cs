@@ -4,6 +4,7 @@ using mayorista_el_brujo.Models;
 
 namespace mayorista_el_brujo.Controllers;
 
+// [Authorize(Policy = "AdminOnly")]
 public class UsuarioController : Controller
 {
 
@@ -13,7 +14,7 @@ public class UsuarioController : Controller
 
     }
 
-    public IActionResult Index()
+    public IActionResult Index(int pageIndex = 1)
     {
         return View();
     }

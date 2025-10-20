@@ -6,8 +6,8 @@ namespace mayorista_el_brujo.Models
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
+            
         }
 
-     
     }
 }
