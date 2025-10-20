@@ -101,7 +101,6 @@ Contiene los productos, cantidades y precios de cada factura de venta.
 ## Características principales
 
 - Gestión completa de productos, clientes y ventas.  
-- Reportes automáticos en formato PDF.  
 - Control de acceso mediante usuario y contraseña.  
 - Interfaz gráfica desarrollada con **ASP.Net Core**.  
 - Validaciones y manejo de excepciones.  
