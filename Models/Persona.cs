@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MayoristaElBrujo.Models
+namespace mayorista_el_brujo.Models
 {
     [Table("personas")]
     public class Persona
@@ -49,16 +49,6 @@ namespace MayoristaElBrujo.Models
         [Column("fecha_modificacion")]
         public DateTime FechaModificacion { get; set; } = DateTime.Now;
 
-        [Column("creado_por")]
-        public int? CreadoPorId { get; set; }
 
-        [ForeignKey("CreadoPorId")]
-        public Usuario? CreadoPor { get; set; }
-
-        [Column("modificado_por")]
-        public int? ModificadoPorId { get; set; }
-
-        [ForeignKey("ModificadoPorId")]
-        public Usuario? ModificadoPor { get; set; }
     }
 }

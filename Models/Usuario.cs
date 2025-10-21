@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MayoristaElBrujo.Models
+namespace mayorista_el_brujo.Models
 {
     [Table("usuarios")]
     public class Usuario
@@ -57,9 +57,9 @@ namespace MayoristaElBrujo.Models
         public Usuario? ModificadoPor { get; set; }
     }
 
-    public enum RolUsuario
-    {
-        admin,
-        empleado
-    }
+   public enum RolUsuario
+{
+    admin = 0,
+    empleado = 1
+}
 }

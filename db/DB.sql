@@ -21,7 +21,7 @@ CREATE TABLE `usuarios` (
     `persona_id` INT NOT NULL,
     `nombre_usuario` VARCHAR(50) NOT NULL UNIQUE,
     `password` VARCHAR(255) NOT NULL,
-    `rol` ENUM('admin','empleado') NOT NULL,
+    `rol` INT NOT NULL,
     `estado` VARCHAR(20) NOT NULL DEFAULT 'ACTIVO',
     `fecha_creacion` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `fecha_modificacion` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

@@ -1,5 +1,6 @@
 using mayorista_el_brujo.Models;
 using Microsoft.EntityFrameworkCore;
+using mayorista_el_brujo.Repositorios;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,13 +10,15 @@ builder.Services.AddControllersWithViews();
 
 
 //DataContex para MySQL usando Pomelo EFCore
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = builder.Configuration.GetConnectionString("MySqlLocal");
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseMySql(
         connectionString,
         ServerVersion.AutoDetect(connectionString)
     )
 );
+
+builder.Services.AddScoped<IRepositorioUsuario, RepositorioUsuario>();
 
 var app = builder.Build();
 
