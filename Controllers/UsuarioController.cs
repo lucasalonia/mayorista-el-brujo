@@ -28,13 +28,19 @@ public class UsuarioController : Controller
         //Simular retardo de 2 segundos para probar el cargando del front
         await Task.Delay(500);
         var usuarios = await _repositorioUsuario.ObtenerTodosAsync();
-         var resultado = usuarios.Select(u => new {
-        u.Id,
-        Persona = u.Persona,
-        u.NombreUsuario,
-        Rol = u.Rol.ToString(),
-        u.Estado
-    });
+        var resultado = usuarios.Select(u => new
+        {
+            u.Id,
+            Persona = u.Persona,
+            u.NombreUsuario,
+            Rol = u.Rol.ToString(),
+            u.Estado
+        });
         return Json(resultado);
+    }
+    
+    public IActionResult Create()
+    {
+        return View();
     }
 }

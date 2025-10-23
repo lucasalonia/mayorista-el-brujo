@@ -117,9 +117,10 @@ CREATE TABLE `productos` (
 -- ----------------------------------------------------
 CREATE TABLE `facturas_compras` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
-    `fecha` DATETIME NOT NULL,
     `proveedor_id` INT NOT NULL,
-    `usuario_id` INT NOT NULL,
+    `tipo_comprobante` VARCHAR(1) NOT NULL,
+    `numero_comprobante` VARCHAR(50) NOT NULL,
+    `fecha` DATETIME NOT NULL,
     `total` DECIMAL(12,2) NOT NULL,
     `estado` VARCHAR(20) NOT NULL DEFAULT 'ACTIVO',
     `fecha_creacion` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -127,7 +128,6 @@ CREATE TABLE `facturas_compras` (
     `creado_por` INT NULL,
     `modificado_por` INT NULL,
     FOREIGN KEY (`proveedor_id`) REFERENCES `proveedores`(`id`),
-    FOREIGN KEY (`usuario_id`) REFERENCES `usuarios`(`id`),
     FOREIGN KEY (`creado_por`) REFERENCES `usuarios`(`id`) ON DELETE SET NULL ON UPDATE CASCADE,
     FOREIGN KEY (`modificado_por`) REFERENCES `usuarios`(`id`) ON DELETE SET NULL ON UPDATE CASCADE
 );
@@ -158,9 +158,10 @@ CREATE TABLE `detalles_facturas_compras` (
 -- ----------------------------------------------------
 CREATE TABLE `facturas_ventas` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
-    `fecha` DATETIME NOT NULL,
     `cliente_id` INT NOT NULL,
-    `usuario_id` INT NOT NULL,
+    `tipo_comprobante` VARCHAR(1) NOT NULL,
+    `numero_comprobante` VARCHAR(50) NOT NULL,
+    `fecha` DATETIME NOT NULL,
     `total` DECIMAL(12,2) NOT NULL,
     `estado` VARCHAR(20) NOT NULL DEFAULT 'ACTIVO',
     `fecha_creacion` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -168,7 +169,6 @@ CREATE TABLE `facturas_ventas` (
     `creado_por` INT NULL,
     `modificado_por` INT NULL,
     FOREIGN KEY (`cliente_id`) REFERENCES `clientes`(`id`),
-    FOREIGN KEY (`usuario_id`) REFERENCES `usuarios`(`id`),
     FOREIGN KEY (`creado_por`) REFERENCES `usuarios`(`id`) ON DELETE SET NULL ON UPDATE CASCADE,
     FOREIGN KEY (`modificado_por`) REFERENCES `usuarios`(`id`) ON DELETE SET NULL ON UPDATE CASCADE
 );

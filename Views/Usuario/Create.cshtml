@@ -1,0 +1,121 @@
+@{
+    ViewData["Title"] = "Crear Usuario";
+}
+
+<div id="app" class="container mt-5 text-white" v-cloak style="max-width: 1100px;">
+    <h2 class="mb-4">Crear Nuevo Usuario</h2>
+
+    <div class="d-flex flex-wrap justify-content-between gap-4">
+
+        <!-- Sección: Datos de la Persona -->
+        <div class="section-container flex-fill p-4 rounded shadow-sm" 
+             style="background-color: #1e1e1e; min-width: 480px; border: 1px solid #343a40;">
+            <h5 class="section-title text-light">
+                <i class="bi bi-person me-2 text-primary"></i>Datos de la Persona
+            </h5>
+            <hr class="section-divider border-secondary">
+
+            <div class="mb-3">
+                <label class="form-label text-light">Nombre</label>
+                <input type="text" class="form-control bg-dark text-light border-secondary" 
+                       v-model="nuevoUsuario.persona.nombre">
+            </div>
+            <div class="mb-3">
+                <label class="form-label text-light">Apellido</label>
+                <input type="text" class="form-control bg-dark text-light border-secondary" 
+                       v-model="nuevoUsuario.persona.apellido">
+            </div>
+            <div class="mb-3">
+                <label class="form-label text-light">DNI</label>
+                <input type="text" class="form-control bg-dark text-light border-secondary" 
+                       v-model="nuevoUsuario.persona.dni">
+            </div>
+            <div class="mb-3">
+                <label class="form-label text-light">Teléfono</label>
+                <input type="text" class="form-control bg-dark text-light border-secondary" 
+                       v-model="nuevoUsuario.persona.telefono">
+            </div>
+            <div class="mb-3">
+                <label class="form-label text-light">Email</label>
+                <input type="email" class="form-control bg-dark text-light border-secondary" 
+                       v-model="nuevoUsuario.persona.email">
+            </div>
+        </div>
+
+        <!-- Sección: Datos del Usuario -->
+        <div class="section-container flex-fill p-4 rounded shadow-sm" 
+             style="background-color: #1e1e1e; min-width: 480px; border: 1px solid #343a40;">
+            <h5 class="section-title text-light">
+                <i class="bi bi-person-badge me-2 text-primary"></i>Datos del Usuario
+            </h5>
+            <hr class="section-divider border-secondary">
+
+            <div class="mb-3">
+                <label class="form-label text-light">Nombre de Usuario</label>
+                <input type="text" class="form-control bg-dark text-light border-secondary" 
+                       v-model="nuevoUsuario.nombre_usuario">
+            </div>
+            <div class="mb-3">
+                <label class="form-label text-light">Rol</label>
+                <select class="form-select bg-dark text-light border-secondary" v-model="nuevoUsuario.rol">
+                    <option value="1">Administrador</option>
+                    <option value="2" selected>Empleado</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label text-light">Contraseña</label>
+                <input type="password" class="form-control bg-dark text-light border-secondary" 
+                       v-model="nuevoUsuario.password">
+            </div>
+            <div class="mb-3">
+                <label class="form-label text-light">Confirmar Contraseña</label>
+                <input type="password" class="form-control bg-dark text-light border-secondary" 
+                       v-model="confirmarPassword">
+            </div>
+        </div>
+    </div>
+
+    <!-- Botones -->
+    <div class="d-flex justify-content-end mt-4">
+        <button class="btn btn-danger me-2" v-on:click="cancelar">Cancelar</button>
+        <button class="btn btn-primary" v-on:click="guardarUsuario">Guardar</button>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            nuevoUsuario: {
+                persona: {
+                    nombre: '',
+                    apellido: '',
+                    dni: '',
+                    telefono: '',
+                    email: ''
+                },
+                nombre_usuario: '',
+                password: '',
+                rol: '2',
+            },
+            confirmarPassword: ''
+        },
+        methods: {
+            guardarUsuario() {
+                if (this.nuevoUsuario.password !== this.confirmarPassword) {
+                    alert("⚠️ Las contraseñas no coinciden");
+                    return;
+                }
+                // Lógica para guardar el usuario (POST al backend)
+                console.log("Usuario a guardar:", this.nuevoUsuario);
+                alert("✅ Usuario guardado correctamente");
+            },
+            cancelar() {
+                window.location.href = '/Usuario/Index';
+            }
+        }
+    });
+</script>
+}
+
