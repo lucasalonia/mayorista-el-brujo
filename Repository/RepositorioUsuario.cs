@@ -35,10 +35,29 @@ namespace mayorista_el_brujo.Repositorios
                                  .ToListAsync();
         }
 
-        public async Task AgregarAsync(Usuario usuario)
+        public async Task CrearUsuarioAsync(Usuario usuario)
         {
-            await _context.Usuarios.AddAsync(usuario);
-            await _context.SaveChangesAsync();
+            try
+            {
+                usuario.Persona.Id = 0;
+                usuario.Persona.FechaCreacion = DateTime.Now;
+                usuario.Persona.FechaModificacion = DateTime.Now;
+
+                await _context.Usuarios.AddAsync(usuario);
+
+                await _context.SaveChangesAsync();
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException dbEx)
+            {
+                string errorMsg = $"Error de BD al crear usuario: {dbEx.InnerException?.Message ?? dbEx.Message}";
+                Console.WriteLine(errorMsg);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error general al guardar: {ex.Message}");
+                throw;
+            }
         }
 
         public async Task ActualizarAsync(Usuario usuario)

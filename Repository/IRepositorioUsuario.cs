@@ -9,7 +9,7 @@ namespace mayorista_el_brujo.Repositorios
         Task<Usuario> ObtenerPorIdAsync(int id);
         Task<Usuario> ObtenerPorNombreUsuarioAsync(string nombreUsuario);
         Task<IEnumerable<Usuario>> ObtenerTodosAsync();
-        Task AgregarAsync(Usuario usuario);
+        Task CrearUsuarioAsync(Usuario usuario);
         Task ActualizarAsync(Usuario usuario);
         Task EliminarAsync(int id);
     }
