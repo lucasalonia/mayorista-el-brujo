@@ -86,7 +86,7 @@
                 busqueda: ''
             },
             mounted() {
-                fetch('/Usuario/ObtenerTodos')
+                fetch('/api/UsuarioApi/ObtenerTodos')
                     .then(res => {
                         if (!res.ok) throw new Error('Error al obtener usuarios');
                         return res.json();

@@ -107,7 +107,7 @@
             },
             methods: {
                 guardarUsuario() {
-                    @* if (this.nuevoUsuario.password !== this.confirmarPassword) {
+                    if (this.nuevoUsuario.password !== this.confirmarPassword) {
                         Swal.fire({
                             icon: 'warning',
                             title: 'Atención',
@@ -117,10 +117,10 @@
                             confirmButtonColor: '#0d6efd'
                         });
                         return;
-                    } *@
+                    }
                     const dataAEnviar = JSON.parse(JSON.stringify(this.nuevoUsuario));
                     dataAEnviar.rol = parseInt(this.nuevoUsuario.rol, 10);
-                    fetch('/Usuario/CrearUsuario', {
+                    fetch('/api/UsuarioApi/CrearUsuario', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -143,7 +143,7 @@
                             confirmButtonColor: '#0d6efd'
 
                         }).then(() => {
-                            @* window.location.href = '/Usuario/Index'; *@
+                            window.location.href = '/Usuario/Index';
                             });
                     }).catch(error => {
                         console.error('Error:', error);
